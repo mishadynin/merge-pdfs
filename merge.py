@@ -1,3 +1,4 @@
+import csv
 from PyPDF2 import PdfMerger
 
 def merge_pdfs(input_pdfs, output_filename):
@@ -20,14 +21,13 @@ def merge_pdfs(input_pdfs, output_filename):
     print(f"PDFs merged successfully into {output_filename}")
 
 if __name__ == "__main__":
-    # Example usage:
-    # Create some dummy PDF files for demonstration if they don't exist
-    # (In a real scenario, these would be your actual PDF files)
-    # You can use a tool or library to create simple PDFs if needed for testing.
-
-    # Assuming 'file1.pdf', 'file2.pdf', 'file3.pdf' exist in the same directory
-    # Replace these with your actual PDF file paths
-    pdf_files_to_merge = ["file1.pdf", "file2.pdf", "file3.pdf"]
-    output_merged_pdf = "merged_document.pdf"
-
-    merge_pdfs(pdf_files_to_merge, output_merged_pdf)
+    with open('files.csv', mode='r', newline='') as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader)  # Read the header row
+        print(f"Header: {header}")
+        for row in csv_reader:
+            output_name = row[0]
+            input_names = list(filter(None, row[1:]))
+            print(f"Input: {input_names}")
+            print(f"Output: {output_name}")
+            merge_pdfs(input_names, output_name)
