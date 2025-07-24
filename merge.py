@@ -1,3 +1,4 @@
+import os
 import csv
 from PyPDF2 import PdfMerger
 
@@ -12,7 +13,10 @@ def merge_pdfs(input_pdfs, output_filename):
     merger = PdfMerger()
 
     for pdf in input_pdfs:
-        merger.append(pdf)
+        if os.path.exists(pdf):
+            merger.append(pdf)
+        else:
+            print(f"ERROR: can't find {pdf}")
 
     with open(output_filename, "wb") as output_file:
         merger.write(output_file)
